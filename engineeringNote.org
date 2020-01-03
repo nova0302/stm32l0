@@ -1,0 +1,52 @@
+* STM32 Training
+  
+** install programs
+   1. java
+   2. stlink util
+   3. cubemx
+   4. truestudio
+  
+      
+** dive into stm32l0
+*** blink led
+*** over view of debugger windows
+
+
+** tips
+
+*** stlink/v2
+    1. page 12 chap 4.2 Connection with STM32
+    2. page 13 Fig. 10 JTAG debugging flat ribbon layout
+    3. page 14 chap 4.3 ST-LINK/V2 status LED
+
+*** trueStudio
+   
+**** keyboard shortcut remap
+     1. Window -> Preference -> General -> keys
+
+
+**** keyboard shortcut
+***** build/debug
+     1. f11   - debug
+     2. f8    - run
+     3. C-b   - build current project(need to remap)
+	
+***** editing
+     1. C-S-f - format
+     2. f3 - go to the definition
+     3. Alt - 'left arrow key' - back
+	
+** GPIO
+*** OUTPUT
+*** INPUT
+*** External Interrupt
+
+** Basic TIMER(timer6)
+*** Interrupt
+    
+
+** General Purpose TIMER(timer6)
+*** pwm
+
+** ADC
+
