@@ -30,13 +30,22 @@
      1. f11   - debug
      2. f8    - run
      3. C-b   - build current project(need to remap)
+     4. C-f2  - terminate debug
 	
 ***** editing
      1. C-S-f - format
-     2. f3 - go to the definition
-     3. Alt - 'left arrow key' - back
+     2. f3    - go to the definition
+     3. Alt   - 'left arrow key' - back
+     4. C-/   - comment the line
+	
+**** output generation
+     1. right click on the project
+     2. properties -> C/C++ Build -> setting -> tool setting -> MCU Post build outputs
+
 	
 ** GPIO
+   - 5 volt tolerant pins[file:./doc/stm32l052k6.pdf] table 16. pin descriptions
+   - 2,7,8,9,12,13,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30
 *** OUTPUT
 *** INPUT
 *** External Interrupt
