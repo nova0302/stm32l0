@@ -119,6 +119,7 @@ int main(void)
   MX_ADC_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_ADC_Start(&hadc);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,13 +128,18 @@ int main(void)
   {
 //#define GLD1_Pin GPIO_PIN_1
 //#define GLD1_GPIO_Port GPIOA
+	  uint16_t adcSum = 0;
 	  static uint16_t rcc = 0;
 	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, rcc);
 	  HAL_Delay(100);
 	  if(rcc > TIM2->ARR) rcc = 0;
 	  else	  rcc += 50;
 	  HAL_GPIO_TogglePin(GLD0_GPIO_Port, GLD0_Pin);
-	  printf("rcc: %d\r\n", rcc);
+	  for(int i=0; i<8; i++){
+		  adcSum += HAL_ADC_GetValue(&hadc);
+		  HAL_Delay(1);
+	  }
+	  printf("rcc: %d, adc: %d\r\n", rcc, adcSum >> 3);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

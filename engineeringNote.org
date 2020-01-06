@@ -35,10 +35,11 @@
      6. C-f2  - terminate debug
 	
 ***** editing
-     1. C-S-f - format
-     2. f3    - go to the definition
-     3. Alt   - 'left arrow key' - back
-     4. C-/   - comment the line
+     1. C-S-f     - format
+     2. f3        - go to the definition
+     3. Alt       - 'left arrow key' - back
+     4. C-/       - comment the line
+     5. C-'Space' - auto complete
 	
 **** output generation
      1. right click on the project
