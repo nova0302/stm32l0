@@ -29,8 +29,10 @@
 ***** build/debug
      1. f11   - debug
      2. f8    - run
-     3. C-b   - build current project(need to remap)
-     4. C-f2  - terminate debug
+     3. f6    - step over
+     4. f5    - step into
+     5. C-b   - build current project(need to remap)
+     6. C-f2  - terminate debug
 	
 ***** editing
      1. C-S-f - format
@@ -47,6 +49,14 @@
    - 5 volt tolerant pins[file:./doc/stm32l052k6.pdf] table 16. pin descriptions
    - 2,7,8,9,12,13,14,15,18,19,20,21,22,23,24,25,26,27,28,29,30
 *** OUTPUT
+    #+BEGIN_SRC C
+HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 );
+HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 );
+if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET){
+//...~~~
+}
+    
+    #+END_SRC
 
 *** INPUT
 
@@ -109,7 +119,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 ** General Purpose TIMER(timer6)
 *** pwm
-    - CCR(Capture Compare REgister)
+    - CCR(Capture Compare Register)
 
 ** ADC
    
@@ -136,5 +146,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
 
 #+END_SRC
+
 ** Misc
    1. *TSC* -> touch sensor
