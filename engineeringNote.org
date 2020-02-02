@@ -62,7 +62,7 @@ if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET){
 
 *** INPUT
 
-*** External Interrupt(timer6 interrupt example)
+*** External Interrupt(GPIO)
     1. stm32l0xx_it.c(void EXTI0_1_IRQHandler(void))
     2. -> stm32l0xx_hal_gpio.c(void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin))
     3. -> stm32l0xx_hal_gpio.c(__weak void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin))
@@ -152,3 +152,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 ** Misc
    1. *TSC* -> touch sensor
+      
+** RCC registers
+*** RCC_CR
+    1. refer RM0376 chap. 7.3 page 184
+
+       
+** treuStudio Project without cubeMX
+   - [[https://youtu.be/iLGqiJFzNeo][Part1. Creattion of trueStudio Project without CubeMX]]
+   - [[https://youtu.be/pxgRjPDgQuo][Part2. Debug and Run the project]]
