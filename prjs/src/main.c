@@ -44,15 +44,19 @@
  **===========================================================================
  */
 int main(void) {
-
+	// 7.3.12 GPIO clock enable register(RCC_IOPENR)
 	RCC->IOPENR |= RCC_IOPENR_GPIOAEN; // Enable GPIOA Clock.
 
-	GPIOA->MODER &= ~(0x1 << 1); // PA0 as output
-	//GPIOA->MODER &= ~(0x1 << 3); // PA1 as output
+
+	// 00: input, 01:general purpose output mode, 10:Alternate function mode, 11:Analog mode(reset state)
+	// PA0 as output
+	GPIOA->MODER &= ~(0x3 << 0);// Clear mode register for PA0
+	GPIOA->MODER |=  (0x1 << 0); // set 0th bit
+
 
 	/* PA15 as input pullup configuration for btn  */
 // 0b00~~~~~~~ input mode
-	GPIOA->MODER &= ~(0x3 << 30);
+	GPIOA->MODER &= ~(0x3 << 30); // clear GPIOA->MODER[31:0]
 // pullup, PUPDR 0b01~~~~~~~~~~~
 	GPIOA->PUPDR &= ~(0x1 << 31); // clear 32nd bit
 	GPIOA->PUPDR |= (0x1 << 30); // set 31st bit
@@ -62,7 +66,7 @@ int main(void) {
 		if (GPIOA->IDR & (0x1 << 15))
 			GPIOA->ODR |= (0x1 << 0);
 		else
-			GPIOA->ODR |= (0x1 << 0);
+			GPIOA->ODR &= ~(0x1 << 0);
 	}
 
 	return 0;
