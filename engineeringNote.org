@@ -373,4 +373,9 @@ int main(void) {
  #+END_SRC
 
 ** LCD schematic
-[[[file:images/lcd.jpg]]]
+   
+*** data 4 bitmode
+[[[file:images/lcd4b.jpg]]]
+
+*** data 8 bitmode
+[[[file:images/lcd8b.jpg]]]
