@@ -212,6 +212,7 @@ int main(void) {
 
 *** GPIO external interrupt
 #+BEGIN_SRC C
+//https://www.youtube.com/watch?v=wxgZ6kabX-k&list=PL6PplMTH29SHgRPDufZhfMRoFwRAIrzOp&index=53
 #define Dly 100000
 void WaitForAMoment(uint32_t Moment) {
 	volatile uint32_t i, j;
@@ -336,3 +337,40 @@ int main(void) {
 	 return 0;
  }
  #+END_SRC
+ 
+** util sources
+ #+BEGIN_SRC C
+ //https://www.youtube.com/watch?v=mlRM2UfrX4A
+ #define numBtn 5
+ char btnPressed[numBtn];
+ int btnCounter[numBtn];
+ char isBitCleared(char pinPort, char portBit)
+ {
+   return !((pinPort >> portBit) & 0x01);
+ }
+ char isBitSet(char pinPort, char portBit)
+ {
+   return ((pinPort >> portBit) & 0x01);
+ }
+ char isBtnPressed(int index,unsigned char pinPort,unsigned char Bitport,int numCount)
+ {
+   if (isBitcleared(pinPort,Bitport)){
+     if (btnCounter[index]++ > numCount){
+       if (!btnPressed[index]){
+	 btnPressed[index]=1;
+	 return 1;
+       }
+       btnCounter[index]=0;
+     }
+   } else{
+     btnPressed[index]= 0;
+     btnCounter[index]=0;
+   }
+   return 0;
+ }
+
+
+ #+END_SRC
+
+** LCD schematic
+[[[file:images/lcd.jpg]]]

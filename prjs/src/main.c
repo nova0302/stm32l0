@@ -35,7 +35,7 @@
 /* Private variables */
 /* Private function prototypes */
 /* Private functions */
-
+//GPIO_MODER_MODE0;
 /**
  **===========================================================================
  **
@@ -47,12 +47,10 @@ int main(void) {
 	// 7.3.12 GPIO clock enable register(RCC_IOPENR)
 	RCC->IOPENR |= RCC_IOPENR_GPIOAEN; // Enable GPIOA Clock.
 
-
 	// 00: input, 01:general purpose output mode, 10:Alternate function mode, 11:Analog mode(reset state)
 	// PA0 as output
 	GPIOA->MODER &= ~(0x3 << 0);// Clear mode register for PA0
 	GPIOA->MODER |=  (0x1 << 0); // set 0th bit
-
 
 	/* PA15 as input pullup configuration for btn  */
 // 0b00~~~~~~~ input mode
