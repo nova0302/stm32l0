@@ -80,25 +80,6 @@ void  LCD_Delay_ms(uint8_t  ms)
 //############################################################################################
 void LCD_Init(void)
 {	
-//  GPIO_InitTypeDef  gpio;
-//  gpio.Mode = GPIO_MODE_OUTPUT_PP;
-//  gpio.Speed = GPIO_SPEED_FREQ_HIGH;
-//  gpio.Pull = GPIO_NOPULL;
-//
-//  gpio.Pin = _LCD_RS_PIN;
-//  HAL_GPIO_Init(_LCD_RS_PORT,&gpio);
-//  gpio.Pin = _LCD_E_PIN;
-//  HAL_GPIO_Init(_LCD_E_PORT,&gpio);
-//  gpio.Pin = _LCD_RW_PIN;
-//  HAL_GPIO_Init(_LCD_RW_PORT,&gpio);
-//  gpio.Pin = _LCD_D4_PIN;
-//  HAL_GPIO_Init(_LCD_D4_PORT,&gpio);
-//  gpio.Pin = _LCD_D5_PIN;
-//  HAL_GPIO_Init(_LCD_D5_PORT,&gpio);
-//  gpio.Pin = _LCD_D6_PIN;
-//  HAL_GPIO_Init(_LCD_D6_PORT,&gpio);
-//  gpio.Pin = _LCD_D7_PIN;
-//  HAL_GPIO_Init(_LCD_D7_PORT,&gpio);
   
     while(HAL_GetTick()<200)
 	LCD_Delay_ms(1);
