@@ -58,7 +58,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-volatile bool theFlag=0;
+
 #define CLEAR_LCD_ONCE if (!theFlag) { theFlag = 1; LCD_Clear();}
 /* USER CODE END 0 */
 
@@ -72,6 +72,7 @@ int main(void) {
 	int i = 0;
 	char buf[16];
 	uint32_t now, lastTime;
+	 bool theFlag = 0;
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
@@ -93,7 +94,8 @@ int main(void) {
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
 	/* USER CODE BEGIN 2 */
-
+	sprintf(buf, "Starting...");
+	LCD_Puts(0, 0, buf);
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -111,20 +113,7 @@ int main(void) {
 				}
 				lastTime = now;
 			}
-		}
-//		if (!HAL_GPIO_ReadPin(btn_GPIO_Port, btn_Pin)) {
-//			if (btnCounter++ > 5000) {
-//				if (!btnPressed) {
-//					btnPressed = 1;
-//					CLEAR_LCD_ONCE
-//					sprintf(buf, "i: %d", i++);
-//					LCD_Puts(0, 0, buf);
-//				}
-//				btnCounter = 0;
-//			}
-//		}
-		else {
-			//btnCounter = 0;
+		} else {
 			btnPressed = 0;
 			lastTime = now;
 		}
@@ -188,7 +177,7 @@ static void MX_GPIO_Init(void) {
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOA,
-			rs_Pin | en_Pin | rw_Pin | d4_Pin | d5_Pin | d6_Pin | d7_Pin,
+	rs_Pin | en_Pin | rw_Pin | d4_Pin | d5_Pin | d6_Pin | d7_Pin,
 			GPIO_PIN_RESET);
 
 	/*Configure GPIO pins : rs_Pin en_Pin rw_Pin d4_Pin
