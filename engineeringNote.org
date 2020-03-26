@@ -379,3 +379,6 @@ int main(void) {
 
 *** data 8 bitmode
 [[[file:images/lcd8b.jpg]]]
+** Emergncy Tips
+*** not able to connect to ST-Link even if everything seems OK! 
+    - The cause might be the debugger used for other puposes other than swd.!!
