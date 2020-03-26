@@ -380,5 +380,14 @@ int main(void) {
 *** data 8 bitmode
 [[[file:images/lcd8b.jpg]]]
 ** Emergncy Tips
+   
+*** swo printf
+    1. Debugger Setting
+[[[file:images/swoPrintf0.jpg]]]
+    2. Serial Wire Viewer Setting
+[[[file:images/swoPrintf1.jpg]]]
+
 *** not able to connect to ST-Link even if everything seems OK! 
     - The cause might be the debugger used for other puposes other than swd.!!
+      
+[file:images/buildOutputOption.jpg]
