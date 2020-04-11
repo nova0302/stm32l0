@@ -1,5 +1,40 @@
 * STM32 Training
-  
+** HAL Functions used often  
+*** GPIO
+    - HAL_GPIO_Togglepin(GPIO_Port, GPIO_pin)
+    - HAL_GPIO_WritePin(GPIO_Port, GPIO_pi)
+    - HAL_GPIO_ReadPin(GPIO_Port, GPIO_pi)
+*** GPIO IRQ Handler
+#+BEGIN_SRC C
+volatile uint8_t dutyDelta = 1;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	static uint8_t duty = 0;
+	if (htim->Instance == TIM3) {
+		duty += dutyDelta;
+		if (duty > 99)
+			duty = 0;
+		htim4.Instance->CCR3 = duty;
+	}
+}
+#+END_SRC
+*** TIMER
+    - HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
+    - HAL_TIM_Base_Start_IT(&htim3);
+*** TIMER IRQ Handler
+#+BEGIN_SRC C
+volatile uint8_t initDone = 0;
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == FD_SW_Pin) {
+		initDone = 1;
+		dutyDelta = (dutyDelta < 100) ? dutyDelta++ : 0;
+	}
+}
+#+END_SRC
+
+*** UART
+    - HAL_UART_Transmit(&huart3, pData, sizeof(pData), 300);
+    - HAL_UART_Receive(&huart3, pData, sizeof(pData), 300);
+
 ** Ordering Information
    - refer to 142 page of stm32l052k6.pdf
      
