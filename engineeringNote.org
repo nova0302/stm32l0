@@ -14,26 +14,82 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	}
 }
 #+END_SRC
+
 *** TIMER
     - HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
     - HAL_TIM_Base_Start_IT(&htim3);
-*** TIMER IRQ Handler
-#+BEGIN_SRC C
-volatile uint8_t dutyDelta = 1;
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	static uint8_t duty = 0;
-	if (htim->Instance == TIM3) {
-		duty += dutyDelta;
-		if (duty > 99)
-			duty = 0;
-		htim4.Instance->CCR3 = duty;
-	}
-}
-#+END_SRC
+
+**** TIMER IRQ Handler
+ #+BEGIN_SRC C
+ volatile uint8_t dutyDelta = 1;
+ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	 static uint8_t duty = 0;
+	 if (htim->Instance == TIM3) {
+		 duty += dutyDelta;
+		 if (duty > 99)
+			 duty = 0;
+		 htim4.Instance->CCR3 = duty;
+	 }
+ }
+ #+END_SRC
 
 *** UART
     - HAL_UART_Transmit(&huart3, pData, sizeof(pData), 300);
     - HAL_UART_Receive(&huart3, pData, sizeof(pData), 300);
+
+**** redirect uart3 to printf
+#+BEGIN_SRC C
+int _write(int file, char *ptr, int len)
+{
+	HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, HAL_MAX_DELAY);
+	return len;
+}
+#+END_SRC
+
+*** RTC
+**** ISR
+#+BEGIN_SRC C
+volatile uint8_t initDone = 0;
+volatile uint8_t duty = 0;
+
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc) {
+	uint8_t dutyDelta = 8;
+	duty += dutyDelta;
+	if (duty > 80)
+		duty = 0;
+	htim4.Instance->CCR3 = duty;
+	initDone = 1;
+}
+#+END_SRC
+
+**** rearm Alarm
+#+BEGIN_SRC C
+extern RTC_HandleTypeDef hrtc;
+extern uint8_t initDone;
+extern RTC_AlarmTypeDef sAlarm;
+extern char alarm[32];
+
+void rearmAlarm() {
+	if (initDone) {
+		initDone = 0;
+		HAL_RTC_GetAlarm(&hrtc, &sAlarm, RTC_ALARM_A, RTC_FORMAT_BIN);
+		sprintf(alarm, "Alarm: %02d:%02d:%02d ", sAlarm.AlarmTime.Hours,
+				sAlarm.AlarmTime.Minutes, sAlarm.AlarmTime.Seconds);
+
+		printf("%s\r\n", alarm);
+
+		sAlarm.AlarmTime.Minutes += 1;
+		if (sAlarm.AlarmTime.Minutes > 59) {
+			sAlarm.AlarmTime.Hours++;
+			sAlarm.AlarmTime.Minutes = 0;
+		}
+		if (HAL_RTC_SetAlarm_IT(&hrtc, &sAlarm, RTC_FORMAT_BIN) != HAL_OK) {
+			Error_Handler();
+		}
+	}
+}
+#+END_SRC
+
 
 ** Ordering Information
    - refer to 142 page of stm32l052k6.pdf
