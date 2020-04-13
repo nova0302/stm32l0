@@ -33,49 +33,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
  }
  #+END_SRC
 
-**** Setting Tiem & Date
-#+BEGIN_SRC C
-void rtcSetTime() {
-	RTC_TimeTypeDef sTime = { 0 };
 
-	sTime.Hours = 11;
-	sTime.Minutes = 35;
-	sTime.Seconds = 0;
 
-	if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN) != HAL_OK) {
-		Error_Handler();
-	}
-	RTC_DateTypeDef DateToUpdate = { 0 };
-	DateToUpdate.WeekDay = RTC_WEEKDAY_SUNDAY;
-	DateToUpdate.Month = RTC_MONTH_APRIL;
-	DateToUpdate.Date = 12;
-	DateToUpdate.Year = 20;
-
-	if (HAL_RTC_SetDate(&hrtc, &DateToUpdate, RTC_FORMAT_BIN) != HAL_OK) {
-		Error_Handler();
-	}
-	HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 0x32F2);
-}
-#+END_SRC
-
-**** check if bat has been turned off
-#+BEGIN_SRC C
-	if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0x32F2) {
-		rtcSetTime();
-	}
-#+END_SRC
-*** UART
-    - HAL_UART_Transmit(&huart3, pData, sizeof(pData), 300);
-    - HAL_UART_Receive(&huart3, pData, sizeof(pData), 300);
-
-**** redirect uart3 to printf
-#+BEGIN_SRC C
-int _write(int file, char *ptr, int len)
-{
-	HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, HAL_MAX_DELAY);
-	return len;
-}
-#+END_SRC
 
 *** RTC
 **** ISR
@@ -118,6 +77,51 @@ void rearmAlarm() {
 			Error_Handler();
 		}
 	}
+}
+#+END_SRC
+
+**** Setting Tiem & Date
+#+BEGIN_SRC C
+void rtcSetTime() {
+	RTC_TimeTypeDef sTime = { 0 };
+
+	sTime.Hours = 11;
+	sTime.Minutes = 35;
+	sTime.Seconds = 0;
+
+	if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN) != HAL_OK) {
+		Error_Handler();
+	}
+	RTC_DateTypeDef DateToUpdate = { 0 };
+	DateToUpdate.WeekDay = RTC_WEEKDAY_SUNDAY;
+	DateToUpdate.Month = RTC_MONTH_APRIL;
+	DateToUpdate.Date = 12;
+	DateToUpdate.Year = 20;
+
+	if (HAL_RTC_SetDate(&hrtc, &DateToUpdate, RTC_FORMAT_BIN) != HAL_OK) {
+		Error_Handler();
+	}
+	HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 0x32F2);
+}
+#+END_SRC
+
+**** check if bat has been turned off
+#+BEGIN_SRC C
+	if (HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1) != 0x32F2) {
+		rtcSetTime();
+	}
+#+END_SRC
+
+*** UART
+    - HAL_UART_Transmit(&huart3, pData, sizeof(pData), 300);
+    - HAL_UART_Receive(&huart3, pData, sizeof(pData), 300);
+
+**** redirect uart3 to printf
+#+BEGIN_SRC C
+int _write(int file, char *ptr, int len)
+{
+	HAL_UART_Transmit(&huart3, (uint8_t *) ptr, len, HAL_MAX_DELAY);
+	return len;
 }
 #+END_SRC
 
