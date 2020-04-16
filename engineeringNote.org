@@ -34,8 +34,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
  #+END_SRC
 
 
-
-
 *** RTC
     - important : RTC Alarm interrupt through EXT line 17, not global interrupt
 
@@ -126,6 +124,67 @@ int _write(int file, char *ptr, int len)
 	return len;
 }
 #+END_SRC
+
+
+*** ADC
+    
+**** Polling Method
+ #+BEGIN_SRC C
+   
+  while (1)
+   {
+	   //uint8_t pData[] = "Hello World\n\r";
+	  // HAL_UART_Transmit(&huart1, pData, sizeof(pData), 0xffff);
+		 printf("Hello World: %d\t", dlyAmt);
+		 pAdc = 0;
+		 for (int i = 0; i < nSamples; i++) {
+			 HAL_ADC_Start(&hadc);
+			 HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+			 pAdc += HAL_ADC_GetValue(&hadc);
+		 }
+		 //sprintf(msg, "ADC Value: %f\r\n", ((double)pAdc/8)*0.00081);
+		 //printf("ADC Value: %f\n\r", ((double)pAdc/8)*0.00081);
+		 printf("ADC Value: %d\n\r", pAdc/nSamples);
+ //	  HAL_GPIO_TogglePin(GLED_GPIO_Port, GLED_Pin );
+	   HAL_Delay(dlyAmt);
+
+   }
+
+ #+END_SRC
+
+**** DMA Method
+
+     #+BEGIN_SRC C
+     
+uint16_t adcVal[2];
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+	HAL_GPIO_TogglePin(gLED_GPIO_Port, gLED_Pin);
+}
+
+int main(void)
+{
+
+  /* USER CODE BEGIN 2 */
+	//HAL_TIM_Base_Start(&htim2);
+	HAL_TIM_Base_Start(&htim6);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t*)adcVal, 2);
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+	while (1) {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	}
+  /* USER CODE END 3 */
+}
+
+     
+     #+END_SRC
+
+
 
 
 ** Ordering Information
@@ -268,31 +327,6 @@ int _write(int file, char *ptr, int len)
 **** pwm
      - CCR(Capture Compare Register)
 
-*** ADC
-   
-
- #+BEGIN_SRC C
-   
-  while (1)
-   {
-	   //uint8_t pData[] = "Hello World\n\r";
-	  // HAL_UART_Transmit(&huart1, pData, sizeof(pData), 0xffff);
-		 printf("Hello World: %d\t", dlyAmt);
-		 pAdc = 0;
-		 for (int i = 0; i < nSamples; i++) {
-			 HAL_ADC_Start(&hadc);
-			 HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
-			 pAdc += HAL_ADC_GetValue(&hadc);
-		 }
-		 //sprintf(msg, "ADC Value: %f\r\n", ((double)pAdc/8)*0.00081);
-		 //printf("ADC Value: %f\n\r", ((double)pAdc/8)*0.00081);
-		 printf("ADC Value: %d\n\r", pAdc/nSamples);
- //	  HAL_GPIO_TogglePin(GLED_GPIO_Port, GLED_Pin );
-	   HAL_Delay(dlyAmt);
-
-   }
-
- #+END_SRC
 
 *** Misc
     1. *TSC* -> touch sensor
