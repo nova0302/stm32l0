@@ -162,6 +162,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 	HAL_GPIO_TogglePin(gLED_GPIO_Port, gLED_Pin);
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+	if (htim->Instance == TIM6) {
+		HAL_ADC_Start_DMA(&hadc, (uint32_t*) adcVal, 2);
+	}
+}
+
 int main(void)
 {
 
