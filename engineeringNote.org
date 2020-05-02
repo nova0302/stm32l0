@@ -152,7 +152,7 @@ int _write(int file, char *ptr, int len)
 
  #+END_SRC
 
-**** DMA Method
+**** DMA Timer Interrupt
 
      #+BEGIN_SRC C
      
@@ -190,6 +190,36 @@ int main(void)
      
      #+END_SRC
 
+**** DMA Timer Trigger
+     
+#+BEGIN_SRC C
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+	static uint32_t counter = 0;
+	static uint8_t state = 0;
+	if (hadc->Instance == ADC1) {
+		if (counter++ > 500) {
+			counter = 0;
+			HAL_GPIO_TogglePin(gLed_GPIO_Port, gLed_Pin);
+		}
+	}
+}
+
+int main(void) {
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_DMA_Init();
+	MX_ADC_Init();
+	MX_TIM6_Init();
+	/* USER CODE BEGIN 2 */
+	ADC1->CFGR1 |= 0x2; // <- in incase sth goes wrong..
+	HAL_TIM_Base_Start(&htim6);
+	HAL_ADC_Start_DMA(&hadc, (uint32_t*) adcVal, 2);
+
+	while (1) {
+	}
+}
+
+#+END_SRC
 
 
 
