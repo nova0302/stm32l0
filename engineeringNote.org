@@ -116,6 +116,13 @@ void rtcSetTime() {
     - HAL_UART_Transmit(&huart3, pData, sizeof(pData), 300);
     - HAL_UART_Receive(&huart3, pData, sizeof(pData), 300);
 
+**** ITM
+#+BEGIN_SRC C
+int __io_putchar(int ch) {
+	ITM_SendChar(ch);
+	return ch;
+}
+#+END_SRC
 **** redirect uart3 to printf
 #+BEGIN_SRC C
 int _write(int file, char *ptr, int len)
