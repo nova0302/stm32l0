@@ -596,3 +596,8 @@ int main(void) {
     - The cause might be the debugger used for other puposes other than swd.!!
       
 [file:images/buildOutputOption.jpg]
+
+** using floating numbers with truestudio
+   - properties -> c/c++ Build -> Settings -> c++ Linker -> Miscelianeous -> other options,
+   - add "-u _printf_float -u _scanf_float"
+
