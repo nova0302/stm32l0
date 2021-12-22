@@ -2,8 +2,8 @@
 ** HAL Functions used often  
 *** GPIO
     - HAL_GPIO_Togglepin(GPIO_Port, GPIO_pin)
-    - HAL_GPIO_WritePin(GPIO_Port, GPIO_pi)
-    - HAL_GPIO_ReadPin(GPIO_Port, GPIO_pi)
+    - HAL_GPIO_WritePin(GPIO_Port, GPIO_pin, value)
+    - HAL_GPIO_ReadPin(GPIO_Port, GPIO_pin)
 *** GPIO IRQ Handler
 #+BEGIN_SRC C
 volatile uint8_t initDone = 0;
