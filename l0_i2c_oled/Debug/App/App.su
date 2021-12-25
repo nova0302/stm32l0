@@ -1,0 +1,3 @@
+App.c:15:6:appSetup	8	static
+App.c:22:6:incPos	16	static
+App.c:30:6:appLoop	32	static
