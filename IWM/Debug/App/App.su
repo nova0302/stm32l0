@@ -1,0 +1,6 @@
+App.c:42:6:HAL_ADC_ConvCpltCallback	16	static
+App.c:47:6:appSetup	8	static
+App.c:54:6:appLoop	16	static
+App.c:117:6:swEvntCheck	32	static
+App.c:141:6:systemHearbit	16	static
+App.c:149:6:showMenu	16	static
